@@ -8,3 +8,8 @@
 // @use 'vuetify/settings' with (
 //   $color-pack: false
 // );
+
+@use 'vuetify/settings' with (
+    $radio-group-label-margin-inline-start: 0px,
+    $radio-group-label-selection-group-margin-top: 0px
+);

@@ -11,6 +11,8 @@ services:
   fe_erp_nginx:
     container_name: fe_erp_nginx
     restart: always
+    environment:
+      - VITE_APP_BACKEND_URL=${VITE_APP_BACKEND_URL}
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile

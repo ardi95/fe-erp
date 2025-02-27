@@ -48,9 +48,9 @@ const router = createRouter({
               path: 'users',
               name: 'users',
               meta: {
-                label: 'Users',
+                label: 'Users'
               },
-              component: () => import('@/components/ui/BaseComponent.vue'),
+              component: () => import('@/pages/AppManagement/User/Index.vue'),
             },
           ]
         },

@@ -1,8 +1,13 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { refreshToken } from './auth';
+import { createPinia } from 'pinia';
+import { useAppStore } from '@/stores/app';
+import router from '@/router';
 
-const baseUrl = import.meta.env.VITE_APP_BACKEND_URL;
+const baseUrl = window.__ENV__?.VITE_APP_BACKEND_URL;
+const pinia = createPinia();
+const store = useAppStore(pinia);
 
 const api = axios.create({
   baseURL: `${baseUrl}/api`,
@@ -58,6 +63,17 @@ api.interceptors.response.use(
           });
         });
       }
+    } else if (error.response.status === 403 || error.response.status === 429) {
+      // logout()
+      //   .then(() => {
+      //   })
+      //   .catch(() => {});
+        store.addProfileGlobal(null);
+        localStorage.removeItem('refresh_token');
+        router.push('/');
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
     } else if (error.response.status === 400) {
       Swal.fire({
         icon: 'error',

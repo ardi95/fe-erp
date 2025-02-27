@@ -89,8 +89,6 @@ import { useLoading } from '@/utils/loading';
 import useVuelidate from '@vuelidate/core';
 import { email, helpers, required } from '@vuelidate/validators';
 import { useLocalStorage } from '@vueuse/core';
-import { useRouter, useRoute } from 'vue-router';
-import { reactive, ref } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
