@@ -8,7 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DatePicker: typeof import('./components/common/DatePicker.vue')['default']
-    DialogForm: typeof import('./components/UI/AppManagement/User/DialogForm.vue')['default']
+    DialogAddMenu: typeof import('./components/UI/AppManagement/Menu/DialogAddMenu.vue')['default']
+    DialogForm: typeof import('./components/UI/AppManagement/Role/DialogFormRole.vue')['default']
+    DialogFormMenu: typeof import('./components/UI/AppManagement/Menu/DialogFormMenu.vue')['default']
+    DialogFormRole: typeof import('./components/UI/AppManagement/Role/DialogFormRole.vue')['default']
+    DialogFormUser: typeof import('./components/UI/AppManagement/User/DialogFormUser.vue')['default']
+    FormDataMenu: typeof import('./components/UI/AppManagement/Menu/FormDataMenu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

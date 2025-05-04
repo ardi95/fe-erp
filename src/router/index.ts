@@ -45,12 +45,28 @@ const router = createRouter({
           component: MasterLayout,
           children: [
             {
-              path: 'users',
-              name: 'users',
+              path: 'user',
+              name: 'user',
               meta: {
-                label: 'Users'
+                label: 'User'
               },
               component: () => import('@/pages/AppManagement/User/Index.vue'),
+            },
+            {
+              path: 'role',
+              name: 'role',
+              meta: {
+                label: 'Role'
+              },
+              component: () => import('@/pages/AppManagement/Role/Index.vue'),
+            },
+            {
+              path: 'menu',
+              name: 'menu',
+              meta: {
+                label: 'Menu'
+              },
+              component: () => import('@/pages/AppManagement/Menu/Index.vue'),
             },
           ]
         },

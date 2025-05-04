@@ -31,3 +31,13 @@ export interface IResProfile {
 export interface AppState {
   profileGlobal: IResProfile | null;
 }
+
+export interface IResPermission {
+  access: boolean;
+  create: boolean;
+  update: boolean;
+  delete: boolean;
+  approval: boolean;
+  approval_2: boolean;
+  approval_3: boolean;
+}

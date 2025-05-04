@@ -8,4 +8,7 @@ export const rules = {
     required: helpers.withMessage('Email is Required', required),
     email: helpers.withMessage('Must e-mail format', email),
   },
+  role: {
+    required: helpers.withMessage('Role is Required', required),
+  },
 };

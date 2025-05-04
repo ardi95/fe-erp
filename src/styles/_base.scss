@@ -8,6 +8,12 @@
   z-index: 5000 !important;
 }
 
+.btnDeny {
+  background: white !important;
+  color: #1867c0 !important;
+  border: 1px solid !important;
+}
+
 .font {
   @for $a from 5 through 500 {
     &-#{$a} {
@@ -52,10 +58,4 @@
       }
     }
   }
-}
-
-.btnDeny {
-  background: white !important;
-  color: #1867c0 !important;
-  border: 1px solid !important;
 }

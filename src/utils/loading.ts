@@ -29,7 +29,9 @@ export function useLoading() {
 export function useLoadingComponent() {
   const dataLoading = {
     data: false,
-    submit: false
+    submit: false,
+    role: false,
+    permission: false,
   };
 
   const loading = reactive({

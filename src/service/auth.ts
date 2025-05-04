@@ -23,6 +23,13 @@ export function profile() {
   })
 }
 
+export function getPermission(params: { key_menu: string }) {
+  return api({
+    url: `/permission`,
+    params
+  })
+}
+
 export function logout() {
   return api({
     url: `/logout`,

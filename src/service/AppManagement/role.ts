@@ -1,8 +1,8 @@
 import type { IDefaultParams } from '@/model/utils-interface';
 import { api } from '../api';
-import type { IRequestUser, IRequestUserEdit } from '@/model/user-interface';
+import type { IRequestRole } from '@/model/role-interface';
 
-export const basePath = '/app-management/user';
+export const basePath = '/app-management/role';
 
 export function list(params: IDefaultParams) {
   return api({
@@ -19,7 +19,7 @@ export function detail(id: number) {
   });
 }
 
-export function add(data: IRequestUser) {
+export function add(data: IRequestRole) {
   return api({
     url: `${basePath}`,
     method: 'POST',
@@ -27,24 +27,17 @@ export function add(data: IRequestUser) {
   });
 }
 
-export function update(id: number, data: IRequestUserEdit) {
+export function update(id: number, data: IRequestRole) {
   return api({
     url: `${basePath}/${id}`,
     method: 'PATCH',
-    data
+    data,
   });
 }
 
-export function resetPassword(id: number) {
+export function deleteData(id: number) {
   return api({
-    url: `${basePath}/reset-password/${id}`,
-    method: 'POST',
-  });
-}
-
-export function takeOut(id: number) {
-  return api({
-    url: `${basePath}/take-out/${id}`,
-    method: 'POST',
+    url: `${basePath}/${id}`,
+    method: 'DELETE',
   });
 }

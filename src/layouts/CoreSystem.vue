@@ -47,11 +47,29 @@
       <v-list class="mb-6">
         <v-list-item
           link
-          to="/app-management/users"
+          to="/app-management/user"
           color="primary"
           rounded="xl"
         >
-          <v-list-item-title>Users</v-list-item-title>
+          <v-list-item-title>User</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+          link
+          to="/app-management/role"
+          color="primary"
+          rounded="xl"
+        >
+          <v-list-item-title>Role</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+          link
+          to="/app-management/menu"
+          color="primary"
+          rounded="xl"
+        >
+          <v-list-item-title>Menu</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -104,7 +122,7 @@ if (!swal) {
 const { loading, resultLoading } = useLoading();
 
 // data
-const drawer = ref(null);
+const drawer = ref(true);
 const dataProfile = ref<IResProfile | null>(null);
 
 const stringAvatar = computed(() => {

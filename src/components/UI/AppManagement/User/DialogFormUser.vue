@@ -97,6 +97,20 @@
               label="Birhtdate"
               class="mt-2"
             />
+
+            <v-autocomplete
+              v-model="state.role"
+              class="mt-2"
+              density="compact"
+              variant="outlined"
+              label="Role"
+              :items="itemListRole"
+              item-title="name"
+              clearable
+              return-object
+              :error-messages="v$.role.$errors.map((e) => e.$message as string)"
+              @blur="v$.role.$touch()"
+            />
           </v-col>
         </v-row>
       </v-form>
@@ -112,7 +126,7 @@ import useVuelidate from '@vuelidate/core';
 import { format } from 'date-fns';
 import DatePicker from '@/components/common/DatePicker.vue';
 import { add, detail, update } from '@/service/AppManagement/user';
-import type { IResponseUser } from '@/model/user-interface';
+import type { IResponseUser, IStateUser } from '@/model/user-interface';
 
 const route = useRoute();
 const swal = inject('$swal') as typeof import('sweetalert2').default;
@@ -125,11 +139,12 @@ const emit = defineEmits(emitsGlobal);
 const { loading, resultLoading } = useLoadingForm();
 
 // data
-const state = reactive({
+const state = reactive<IStateUser>({
   name: '',
   email: '',
   gender: 'Male',
   birthdate: format(new Date(), 'yyyy-MM-dd'),
+  role: null
 });
 
 // rules
@@ -138,9 +153,14 @@ const v$ = useVuelidate(rules, state);
 const submitForm = () => {
   loading.submit = true;
 
+  const payload = {
+    ...state,
+    role_id: state.role ? state.role.id : null,
+  }
+
   let type
-  if (props.selectData) type = update(props.selectData.id, state)
-  else type = add(state)
+  if (props.selectData) type = update(props.selectData.id, payload)
+  else type = add(payload)
 
   if (type) {
     type
@@ -162,7 +182,18 @@ const fetchForm = () => {
     loading.data = true;
     detail(props.selectData.id)
       .then(({ data }) => {
-        Object.assign(state, data.data);
+        Object.assign(state, {
+          ...data.data,
+          role: data.data.role
+            ? {
+                ...data.data.role,
+                created_by: data.data.role.created_by ?? 0,
+                created_at: data.data.role.created_at ?? '',
+                updated_by: data.data.role.updated_by ?? 0,
+                updated_at: data.data.role.updated_at ?? '',
+              }
+            : null,
+        });
       })
       .finally(() => (loading.data = false));
   }

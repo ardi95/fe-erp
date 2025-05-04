@@ -1,3 +1,4 @@
+import type { IResponseRole } from "@/model/role-interface";
 import type { PropType } from "vue";
 
 export const emitsGlobal = [
@@ -7,12 +8,21 @@ export const emitsGlobal = [
   'submitDelete',
   'fetchDataSummary',
   'optionsPerPage',
+  'changeLoading'
 ];
 
 export const propsForm = <T>() => ({
   selectData: {
     type: Object as PropType<T | null>,
     default: () => null,
+  },
+  itemListRole: {
+    type: Array as PropType<IResponseRole[]>,
+    default: () => [],
+  },
+  id: {
+    type: Number,
+    default: null,
   },
 });
 
