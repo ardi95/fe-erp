@@ -13,7 +13,7 @@
       :dense="true"
     >
       <v-col cols="12">
-        <div class="rounded elevation-6 pa-4 ma-2">
+        <div class="rounded-lg elevation-6 pa-4 ma-2">
           <v-btn
             v-if="permission !== null && permission.create === true"
             class="mb-2 mr-2 text-capitalize"
@@ -48,6 +48,7 @@
           >
             <thead>
               <tr>
+                <th />
                 <th>Actions</th>
                 <th>Key Menu</th>
                 <th style="min-width: 200px">
@@ -91,6 +92,8 @@
                       class="mr-2"
                       icon="mdi-drag-horizontal-variant"
                     />
+                  </td>
+                  <td>
                     <v-menu v-if="permission?.update || permission?.delete">
                       <template #activator="{ props }">
                         <v-btn
@@ -110,11 +113,18 @@
                           <v-list-item-title>Edit</v-list-item-title>
                         </v-list-item>
                         <v-list-item
-                          v-if="permission?.delete"
+                          v-if="permission?.delete && element.active === 'Active'"
                           link
                           @click="submitDelete(element.id)"
                         >
                           <v-list-item-title>Inactive</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item
+                          v-if="element.active === 'Inactive'"
+                          link
+                          @click="submitActive(element.id)"
+                        >
+                          <v-list-item-title>Active</v-list-item-title>
                         </v-list-item>
                       </v-list>
                     </v-menu>
@@ -166,7 +176,7 @@
 
 <script setup lang="ts">
 import type { IResPermission } from '@/model/auth-interface';
-import { deleteData, list, sort } from '@/service/AppManagement/menu';
+import { activeMenu, deleteData, list, sort } from '@/service/AppManagement/menu';
 import { getPermission } from '@/service/auth';
 import { useLoadingComponent } from '@/utils/loading';
 import draggable from 'vuedraggable';
@@ -213,6 +223,28 @@ const closeDialogForm = () => {
 const openDialogForm = (item = null) => {
   selectData.value = item;
   statusDialogForm.value = true;
+};
+
+const submitActive = (id: number) => {
+  const data = {
+    title: 'Active Menu',
+    html: `Are you sure you want to active this data?`,
+    confirmButtonText: 'Yes',
+  };
+
+  swal.fire(useAttributeDialogConfirm(data)).then((result) => {
+    if (result.isConfirmed) {
+      loading.submit = true;
+
+      activeMenu(id)
+        .then(({ data }) => {
+          swal.fire('Success', data.message, 'success');
+          fetchData();
+        })
+        .catch(() => {})
+        .finally(() => (loading.submit = false));
+    }
+  });
 };
 
 const submitDelete = (id: number) => {

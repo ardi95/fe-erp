@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <div class="pa-6 bg-white radius-10">
+    <div class="pa-6 bg-white">
       <v-form @submit.prevent="submitForm">
         <v-row class="d-flex align-center">
           <v-col cols="6">

@@ -1,3 +1,4 @@
+import type { IResPermission } from "@/model/auth-interface";
 import type { IResponseRole } from "@/model/role-interface";
 import type { PropType } from "vue";
 
@@ -24,6 +25,10 @@ export const propsForm = <T>() => ({
     type: Number,
     default: null,
   },
+  permission: {
+    type: Object as PropType<IResPermission | null>,
+    default: () => null,
+  }
 });
 
 export const propsComponentCommon = {

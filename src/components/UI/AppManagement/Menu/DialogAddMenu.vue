@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <div class="pa-6 bg-white radius-10">
+    <div class="pa-6 bg-white rounded-lg">
       <v-row class="d-flex align-center">
         <v-col cols="6">
           <div class="font-24 font-weight-bold">
@@ -25,8 +25,9 @@
 
       <v-row class="mt-2">
         <v-col cols="12">
-          <div class="elevation-3 rounded pa-2">
+          <div class="elevation-3 rounded-lg pa-4">
             <form-data
+              :id="selectData?.id"
               @refresh-page="moduleRefreshPage"
               @change-loading="(data) => loading.submit = data"
             />
@@ -39,12 +40,14 @@
 
 <script setup lang="ts">
 import { useLoadingForm } from '@/utils/loading';
-import { emitsGlobal } from '@/utils/props';
+import { emitsGlobal, propsForm } from '@/utils/props';
 import FormData from './FormDataMenu.vue';
+import type { IResponseMenu } from '@/model/menu-interface';
 
 const route = useRoute();
 
 // props
+defineProps(propsForm<IResponseMenu>());
 const emit = defineEmits(emitsGlobal);
 
 // loading

@@ -46,7 +46,7 @@
       :dense="true"
     >
       <v-col cols="12">
-        <div class="rounded elevation-6 pa-4">
+        <div class="rounded-lg elevation-6 pa-4">
           <v-data-table-server
             v-model:items-per-page="stateParams.per_page"
             v-model:page="stateParams.page"

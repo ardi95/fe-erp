@@ -47,3 +47,10 @@ export function deleteData(id: number) {
     method: 'DELETE',
   });
 }
+
+export function activeMenu(id: number) {
+  return api({
+    url: `${basePath}/active/${id}`,
+    method: 'PUT',
+  });
+}
