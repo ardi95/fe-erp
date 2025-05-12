@@ -32,6 +32,7 @@ export function useLoadingComponent() {
     submit: false,
     role: false,
     permission: false,
+    structureMenu: false
   };
 
   const loading = reactive({

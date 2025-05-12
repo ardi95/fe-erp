@@ -14,6 +14,10 @@ export interface IRequestMenuSort {
   list_menu: IDefaultResponse[];
 }
 
+export interface IRequestMenuChangeParent {
+  menu_id: number | null;
+}
+
 export interface IResponseMenu extends IDefaultResponse, IRequestMenu {
     active: string;
     order_number: number;

@@ -23,6 +23,7 @@ export const useTable = (pixel: boolean) => {
       title: "Birthdate",
       sortable: true,
       key: "birthdate",
+      nowrap: pixel,
       value: (item: Record<string, unknown>) => 
         item.birthdate ? format(parseISO(item.birthdate as string), "yyyy-MM-dd") : "-",
     },

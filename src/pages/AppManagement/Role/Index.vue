@@ -23,6 +23,7 @@
           prepend-inner-icon="mdi-magnify"
           label="Search"
           clearable
+          hide-details
           @change="refreshPage"
           @click:clear="refreshPage"
         />

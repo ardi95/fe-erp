@@ -40,6 +40,16 @@
             Update Sort
           </v-btn>
 
+          <v-btn
+            class="mb-2 mr-2 text-capitalize"
+            density="compact"
+            color="primary"
+            :loading="resultLoading"
+            @click="statusDialogStructureMenu = true"
+          >
+            Structure Menu
+          </v-btn>
+
           <v-table
             hover
             density="compact"
@@ -126,6 +136,13 @@
                         >
                           <v-list-item-title>Active</v-list-item-title>
                         </v-list-item>
+                        <v-list-item
+                          v-if="permission?.update"
+                          link
+                          @click="openDialogHeader(element)"
+                        >
+                          <v-list-item-title>Change Parent</v-list-item-title>
+                        </v-list-item>
                       </v-list>
                     </v-menu>
                   </td>
@@ -171,12 +188,40 @@
         @refresh-page="fetchData"
       />
     </v-dialog>
+
+    <v-dialog
+      v-model="statusDialogHeader"
+      width="900"
+      persistent
+      scrollable
+    >
+      <dialog-header
+        v-if="statusDialogHeader"
+        :id="selectData?.id"
+        @close-dialog="closeDialogHeader"
+        @refresh-page="fetchData"
+      />
+    </v-dialog>
+
+    <v-dialog
+      v-model="statusDialogStructureMenu"
+      width="900"
+      persistent
+      scrollable
+    >
+      <dialog-structure-menu
+        v-if="statusDialogStructureMenu"
+        :key="keyStructure"
+        :structure-menu="structureMenu"
+        @close-dialog="statusDialogStructureMenu = false"
+      />
+    </v-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { IResPermission } from '@/model/auth-interface';
-import { activeMenu, deleteData, list, sort } from '@/service/AppManagement/menu';
+import { activeMenu, deleteData, list, sort, structure } from '@/service/AppManagement/menu';
 import { getPermission } from '@/service/auth';
 import { useLoadingComponent } from '@/utils/loading';
 import draggable from 'vuedraggable';
@@ -184,6 +229,8 @@ import DialogAdd from '@/components/UI/AppManagement/Menu/DialogAddMenu.vue';
 import type { IResponseMenu } from '@/model/menu-interface';
 import DialogForm from '@/components/UI/AppManagement/Menu/DialogFormMenu.vue';
 import { useAttributeDialogConfirm } from '@/utils/attribute-dialog-confirm';
+import DialogHeader from '@/components/UI/AppManagement/Menu/DialogFormHeader.vue';
+import DialogStructureMenu from '@/components/UI/AppManagement/Menu/DialogStructureMenu.vue';
 
 const swal = inject('$swal') as typeof import('sweetalert2').default;
 const route = useRoute();
@@ -199,6 +246,12 @@ const items = ref([]);
 const selectData = ref<IResponseMenu | null>(null);
 const statusDialogAdd = ref(false);
 const statusDialogForm = ref(false);
+const statusDialogHeader = ref(false);
+const statusDialogStructureMenu = ref(false);
+const keyStructure = ref(1);
+
+// list
+const structureMenu = ref([]);
 
 // permission
 const fetchPermission = () => {
@@ -213,6 +266,28 @@ const fetchPermission = () => {
     })
     .catch(() => {})
     .finally(() => (loading.permission = false));
+};
+
+const fetchStructureMenu = () => {
+  loading.structureMenu = true
+
+  structure()
+    .then(({ data }) => {
+      keyStructure.value++;
+      structureMenu.value = data;
+    })
+    .catch(() => {})
+    .finally(() => loading.structureMenu = false);
+};
+
+const closeDialogHeader = () => {
+  selectData.value = null;
+  statusDialogHeader.value = false;
+};
+
+const openDialogHeader = (item: IResponseMenu) => {
+  selectData.value = item;
+  statusDialogHeader.value = true;
 };
 
 const closeDialogForm = () => {
@@ -287,6 +362,7 @@ const updateSort = () => {
 };
 
 const fetchData = () => {
+  fetchStructureMenu();
   loading.data = true;
   items.value = [];
   list(0)

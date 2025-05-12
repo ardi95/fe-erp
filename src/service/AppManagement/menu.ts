@@ -1,11 +1,34 @@
-import type { IRequestMenu, IRequestMenuSort } from '@/model/menu-interface';
+import type { IRequestMenu, IRequestMenuChangeParent, IRequestMenuSort } from '@/model/menu-interface';
 import { api } from '../api';
+import type { IDefaultParams } from '@/model/utils-interface';
 
 const basePath = '/app-management/menu';
 
 export function list(id: number) {
   return api({
     url: `${basePath}/${id}`,
+    method: 'GET',
+  });
+}
+
+export function detail(id: number) {
+  return api({
+    url: `${basePath}/${id}/detail`,
+    method: 'GET',
+  });
+}
+
+export function listHeader(id: number, params: IDefaultParams) {
+  return api({
+    url: `${basePath}/${id}/list-header`,
+    params,
+    method: 'GET',
+  });
+}
+
+export function structure() {
+  return api({
+    url: `${basePath}-structure`,
     method: 'GET',
   });
 }
@@ -26,10 +49,11 @@ export function sort(id: number, data: IRequestMenuSort) {
   });
 }
 
-export function detail(id: number) {
+export function changeParent(id: number, data: IRequestMenuChangeParent) {
   return api({
-    url: `${basePath}/${id}/detail`,
-    method: 'GET',
+    url: `${basePath}/change-parent/${id}`,
+    method: 'POST',
+    data,
   });
 }
 

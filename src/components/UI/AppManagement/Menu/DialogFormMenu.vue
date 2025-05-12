@@ -211,6 +211,13 @@
                           >
                             <v-list-item-title>Active</v-list-item-title>
                           </v-list-item>
+                          <v-list-item
+                            v-if="permission?.update"
+                            link
+                            @click="openDialogHeader(element)"
+                          >
+                            <v-list-item-title>Change Parent</v-list-item-title>
+                          </v-list-item>
                         </v-list>
                       </v-menu>
                     </td>
@@ -243,6 +250,20 @@
         @refresh-page="moduleRefreshPage"
       />
     </v-dialog>
+
+    <v-dialog
+      v-model="statusDialogHeader"
+      width="900"
+      persistent
+      scrollable
+    >
+      <dialog-header
+        v-if="statusDialogHeader"
+        :id="itemSelectHeader?.id"
+        @close-dialog="closeDialogHeader"
+        @refresh-page="moduleRefreshPage"
+      />
+    </v-dialog>
   </v-card>
 </template>
 
@@ -255,6 +276,7 @@ import { activeMenu, deleteData, list, sort } from '@/service/AppManagement/menu
 import draggable from 'vuedraggable';
 import DialogAdd from './DialogAddMenu.vue';
 import { useAttributeDialogConfirm } from '@/utils/attribute-dialog-confirm';
+import DialogHeader from './DialogFormHeader.vue';
 
 const route = useRoute();
 const swal = inject('$swal') as typeof import('sweetalert2').default;
@@ -271,6 +293,8 @@ const items = ref([]);
 
 // dialog
 const statusDialogAdd = ref(false);
+const statusDialogHeader = ref(false);
+const itemSelectHeader = ref<IResponseMenu | null>(null);
 
 // data
 const formKey = ref(0);
@@ -280,6 +304,16 @@ const itemSelectData = ref<IResponseMenu | null>(null);
 const moduleRefreshPage = () => {
   emit('refreshPage');
   emit('closeDialog');
+};
+
+const closeDialogHeader = () => {
+  itemSelectHeader.value = null;
+  statusDialogHeader.value = false;
+};
+
+const openDialogHeader = (item: IResponseMenu) => {
+  itemSelectHeader.value = item;
+  statusDialogHeader.value = true;
 };
 
 const submitActive = (id: number) => {
