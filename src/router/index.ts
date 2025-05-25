@@ -48,7 +48,7 @@ const router = createRouter({
               path: 'user',
               name: 'user',
               meta: {
-                label: 'User'
+                label: 'User',
               },
               component: () => import('@/pages/AppManagement/User/Index.vue'),
             },
@@ -56,7 +56,7 @@ const router = createRouter({
               path: 'role',
               name: 'role',
               meta: {
-                label: 'Role'
+                label: 'Role',
               },
               component: () => import('@/pages/AppManagement/Role/Index.vue'),
             },
@@ -64,11 +64,20 @@ const router = createRouter({
               path: 'menu',
               name: 'menu',
               meta: {
-                label: 'Menu'
+                label: 'Menu',
               },
               component: () => import('@/pages/AppManagement/Menu/Index.vue'),
             },
-          ]
+            {
+              path: 'role-menu',
+              name: 'rolemenu',
+              meta: {
+                label: 'Role Menu',
+              },
+              component: () =>
+                import('@/pages/AppManagement/RoleMenu/Index.vue'),
+            },
+          ],
         },
       ],
     },
@@ -88,7 +97,7 @@ router.beforeEach((to, from, next) => {
       if (!token) {
         next({
           path: '/',
-          query: { redirect: to.fullPath }
+          query: { redirect: to.fullPath },
         });
       } else {
         next();

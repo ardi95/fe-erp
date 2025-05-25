@@ -71,6 +71,15 @@
         >
           <v-list-item-title>Menu</v-list-item-title>
         </v-list-item>
+
+        <v-list-item
+          link
+          to="/app-management/role-menu"
+          color="primary"
+          rounded="xl"
+        >
+          <v-list-item-title>Role Menu</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

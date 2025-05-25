@@ -28,18 +28,6 @@
           @click:clear="refreshPage"
         />
       </v-col>
-      <v-col cols="12">
-        <v-btn
-          v-if="permission?.create"
-          color="primary"
-          density="compact"
-          class="mt-2 mr-2 text-none"
-          :loading="resultLoading"
-          @click="openDialogForm()"
-        >
-          Add
-        </v-btn>
-      </v-col>
     </v-row>
 
     <v-row
@@ -64,33 +52,16 @@
             @update:items-per-page="optionsPerPage"
           >
             <template #[`item.actions`]="{ item }">
-              <v-menu v-if="permission?.update || permission?.delete">
-                <template #activator="{ props }">
-                  <v-btn
-                    density="compact"
-                    :loading="resultLoading"
-                    v-bind="props"
-                  >
-                    Action
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-if="permission?.update"
-                    link
-                    @click="openDialogForm(item)"
-                  >
-                    <v-list-item-title>Edit</v-list-item-title>
-                  </v-list-item>
-                  <v-list-item
-                    v-if="permission?.delete"
-                    link
-                    @click="submitDelete(item.id)"
-                  >
-                    <v-list-item-title>Delete</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+              <v-btn
+                v-if="permission?.update"
+                color="primary"
+                density="compact"
+                class="mt-2 mr-2 text-none"
+                :loading="resultLoading"
+                @click="openDialogForm(item)"
+              >
+                Permission
+              </v-btn>
             </template>
           </v-data-table-server>
         </div>
@@ -113,19 +84,17 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import type { IResPermission } from '@/model/auth-interface';
 import type { IResponseRole } from '@/model/role-interface';
-import { deleteData, list } from '@/service/AppManagement/role';
+import type { IDefaultParams } from '@/model/utils-interface';
+import { list } from '@/service/AppManagement/role';
+import { getPermission } from '@/service/auth';
+import { useTable } from '@/utils/appmanagement/role/list';
 import { useLoadingComponent } from '@/utils/loading';
 import { useDisplay } from 'vuetify';
-import DialogForm from '@/components/UI/AppManagement/Role/DialogFormRole.vue';
-import type { IDefaultParams } from '@/model/utils-interface';
-import { useTable } from '@/utils/appmanagement/role/list';
-import { useAttributeDialogConfirm } from '@/utils/attribute-dialog-confirm';
-import type { IResPermission } from '@/model/auth-interface';
-import { getPermission } from '@/service/auth';
+import DialogForm from '@/components/UI/AppManagement/RoleMenu/DialogFormRoleMenu.vue';
 
-const swal = inject('$swal') as typeof import('sweetalert2').default;
 const route = useRoute();
 const { smAndDown, mdAndUp } = useDisplay();
 const permission = ref<IResPermission | null>(null);
@@ -172,28 +141,6 @@ const fetchPermission = () => {
     })
     .catch(() => {})
     .finally(() => (loading.permission = false));
-};
-
-const submitDelete = (id: number) => {
-  const data = {
-    title: 'Delete Data',
-    html: `Are you sure you want to delete this data?`,
-    confirmButtonText: 'Yes',
-  };
-
-  swal.fire(useAttributeDialogConfirm(data)).then((result) => {
-    if (result.isConfirmed) {
-      loading.submit = true;
-
-      deleteData(id)
-        .then(({ data }) => {
-          swal.fire('Success', data.message, 'success');
-          refreshPage();
-        })
-        .catch(() => {})
-        .finally(() => (loading.submit = false));
-    }
-  });
 };
 
 const closeDialogForm = () => {

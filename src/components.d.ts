@@ -13,6 +13,7 @@ declare module 'vue' {
     DialogFormHeader: typeof import('./components/UI/AppManagement/Menu/DialogFormHeader.vue')['default']
     DialogFormMenu: typeof import('./components/UI/AppManagement/Menu/DialogFormMenu.vue')['default']
     DialogFormRole: typeof import('./components/UI/AppManagement/Role/DialogFormRole.vue')['default']
+    DialogFormRoleMenu: typeof import('./components/UI/AppManagement/RoleMenu/DialogFormRoleMenu.vue')['default']
     DialogFormUser: typeof import('./components/UI/AppManagement/User/DialogFormUser.vue')['default']
     DialogStructureMenu: typeof import('./components/UI/AppManagement/Menu/DialogStructureMenu.vue')['default']
     FormDataMenu: typeof import('./components/UI/AppManagement/Menu/FormDataMenu.vue')['default']
